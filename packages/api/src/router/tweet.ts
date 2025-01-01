@@ -16,7 +16,7 @@ async function fetchAllTweets(id: string): Promise<any[]> {
 
     const response = await fetch(url.toString(), {
       headers: {
-        'Authorization': `Bearer 1660|oBBFoojc17tsVm6fzqY4wgi5JLWfsfJHpiDxPwmd44537968`,
+        'Authorization': `Bearer ${process.env.SOCIAL_DATA_API_KEY!}`,
         'Accept': 'application/json'
       }
     });
