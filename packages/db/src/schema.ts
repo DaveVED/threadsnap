@@ -22,6 +22,11 @@ export const CreatePostSchema = createInsertSchema(Post, {
   updatedAt: true,
 });*/
 
+export const searches = pgTable("searches", (t) => ({
+  id: t.uuid().notNull().primaryKey().defaultRandom(),
+  feedUrl: t.text().notNull(),
+}));
+
 export const User = pgTable("user", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
   name: t.varchar({ length: 255 }),
