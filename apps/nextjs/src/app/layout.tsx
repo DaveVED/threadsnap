@@ -2,14 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
-import { cn } from "@acme/ui";
-
+import { cn } from "~/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
-import { env } from "~/env";
 import { SiteHeader } from "~/components/site-header";
+import { ThemeProvider } from "~/components/theme-provider";
+import { env } from "~/env";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -49,9 +49,17 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           GeistMono.variable,
         )}
       >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
           <TRPCReactProvider>
-          <SiteHeader />
-            {props.children}</TRPCReactProvider>
+            <SiteHeader />
+            {props.children}
+          </TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

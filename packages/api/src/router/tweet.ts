@@ -1,7 +1,6 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 
-
 import { publicProcedure } from "../trpc";
 
 async function fetchAllTweets(id: string): Promise<any[]> {
@@ -11,14 +10,14 @@ async function fetchAllTweets(id: string): Promise<any[]> {
   do {
     const url = new URL(`https://api.socialdata.tools/twitter/thread/${id}`);
     if (nextCursor) {
-      url.searchParams.append('cursor', nextCursor);
+      url.searchParams.append("cursor", nextCursor);
     }
 
     const response = await fetch(url.toString(), {
       headers: {
-        'Authorization': `Bearer ${process.env.SOCIAL_DATA_API_KEY!}`,
-        'Accept': 'application/json'
-      }
+        Authorization: `Bearer ${process.env.SOCIAL_DATA_API_KEY!}`,
+        Accept: "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -31,7 +30,7 @@ async function fetchAllTweets(id: string): Promise<any[]> {
 
     // Respect rate limits, remove later.
     if (nextCursor) {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms between requests
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Wait 500ms between requests
     }
   } while (nextCursor);
 
@@ -46,13 +45,13 @@ export const tweetRouter = {
         const tweets = await fetchAllTweets(input.id);
         return {
           status: 200,
-          data: tweets
+          data: tweets,
         };
       } catch (error) {
         console.error("Error fetching thread:", error);
         return {
           status: 500,
-          error: "An error occurred while fetching the thread"
+          error: "An error occurred while fetching the thread",
         };
       }
     }),

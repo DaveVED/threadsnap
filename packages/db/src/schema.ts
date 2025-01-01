@@ -3,7 +3,7 @@ import { pgTable, primaryKey } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const Post = pgTable("post", (t) => ({
+/*export const Post = pgTable("post", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
   title: t.varchar({ length: 256 }).notNull(),
   content: t.text().notNull(),
@@ -20,7 +20,7 @@ export const CreatePostSchema = createInsertSchema(Post, {
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+});*/
 
 export const User = pgTable("user", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
