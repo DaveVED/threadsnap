@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderIcon } from 'lucide-react';
+import { LoaderIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -71,13 +71,10 @@ export function ThreadInputForm({ onSubmit }: ThreadInputFormProps) {
           )}
         />
         <Button type="submit" disabled={isLoading}>
-          {isLoading && (
-            <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
-          )}
+          {isLoading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
           {isLoading ? "Generating..." : "Generate Snap"}
         </Button>
       </form>
     </Form>
   );
 }
-

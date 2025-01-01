@@ -1,37 +1,40 @@
 export const mockThread = {
-    author: "Dan Abramov",
-    handle: "@dan_abramov",
-    avatar: "/placeholder.svg?height=48&width=48",
-    tweets: [
-      {
-        id: "1",
-        content: "🧵 Let's talk about React Server Components and why they're a game changer for web development.",
-        timestamp: "10:00 AM · Dec 31, 2023",
-        likes: 1200,
-        retweets: 400,
-        replies: 50,
-        views: 10000,
-      },
-      {
-        id: "2",
-        content: "1/ Server Components let you write UI that runs and renders on the server. This means you can access databases and filesystem directly in your components.",
-        timestamp: "10:01 AM · Dec 31, 2023",
-        likes: 800,
-        retweets: 250,
-        replies: 30,
-        views: 8000,
-      },
-      {
-        id: "3",
-        content: "2/ They automatically split client and server code. You don't ship server code to the client, reducing bundle size significantly.",
-        timestamp: "10:02 AM · Dec 31, 2023",
-        likes: 900,
-        retweets: 300,
-        replies: 40,
-        views: 9000,
-      }
-    ]
-  }
+  author: "Dan Abramov",
+  handle: "@dan_abramov",
+  avatar: "/placeholder.svg?height=48&width=48",
+  tweets: [
+    {
+      id: "1",
+      content:
+        "🧵 Let's talk about React Server Components and why they're a game changer for web development.",
+      timestamp: "10:00 AM · Dec 31, 2023",
+      likes: 1200,
+      retweets: 400,
+      replies: 50,
+      views: 10000,
+    },
+    {
+      id: "2",
+      content:
+        "1/ Server Components let you write UI that runs and renders on the server. This means you can access databases and filesystem directly in your components.",
+      timestamp: "10:01 AM · Dec 31, 2023",
+      likes: 800,
+      retweets: 250,
+      replies: 30,
+      views: 8000,
+    },
+    {
+      id: "3",
+      content:
+        "2/ They automatically split client and server code. You don't ship server code to the client, reducing bundle size significantly.",
+      timestamp: "10:02 AM · Dec 31, 2023",
+      likes: 900,
+      retweets: 300,
+      replies: 40,
+      views: 9000,
+    },
+  ],
+};
 
 export const mockThreadCode = `import React from 'react';
 
@@ -107,5 +110,4 @@ export default function App() {
       tweets={thread.tweets}
     />
   );
-}`
-
+}`;

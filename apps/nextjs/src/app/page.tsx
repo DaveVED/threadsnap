@@ -1,18 +1,18 @@
 "use client";
+
 import * as React from "react";
 
 import { ThreadInputForm } from "~/components/thread-input-form";
 import { ThreadPreview } from "~/components/thread-preview";
-
-import { api } from "~/trpc/react"
+import { api } from "~/trpc/react";
 
 export default function HomePage() {
-  const [showPreview, setShowPreview] = React.useState(false)
-  const [threadId, setThreadId] = React.useState<string | null>(null);  
-  
+  const [showPreview, setShowPreview] = React.useState(false);
+  const [threadId, setThreadId] = React.useState<string | null>(null);
+
   const { data, isLoading, error } = api.tweet.byThreadId.useQuery(
     { id: threadId! },
-    { enabled: !!threadId }
+    { enabled: !!threadId },
   );
 
   async function onSubmit(url: string) {
@@ -21,33 +21,35 @@ export default function HomePage() {
       if (!url.match(/^https?:\/\//)) {
         url = `https://${url}`;
       }
-  
+
       // Attempt to parse the URL
       const parsedUrl = new URL(url);
-  
+
       // Validate the hostname
       if (!parsedUrl.hostname.match(/^(x\.com|twitter\.com)$/)) {
-        throw new Error("Invalid URL: Only x.com or twitter.com domains are allowed.");
+        throw new Error(
+          "Invalid URL: Only x.com or twitter.com domains are allowed.",
+        );
       }
-  
+
       // Split the pathname into segments and filter out empty ones
-      const segments = parsedUrl.pathname.split('/').filter(Boolean);
-  
+      const segments = parsedUrl.pathname.split("/").filter(Boolean);
+
       // Ensure there are at least two segments
       if (segments.length < 2) {
         throw new Error("Invalid URL: Path does not contain enough segments.");
       }
-  
+
       // Print the last segment
       const lastSegment = segments[segments.length - 1];
       console.log("Last Segment:", lastSegment);
       if (lastSegment) setThreadId(lastSegment);
+      setShowPreview(true);
     } catch (error) {
       console.log(error);
       //console.error("Error:", error.message || "Failed to process the URL.");
     }
   }
-  
 
   return (
     <main className="container max-w-4xl py-6 lg:py-10">
@@ -61,14 +63,14 @@ export default function HomePage() {
           components. Perfect for embedding in your React projects or creating
           interactive archives.
         </p>
-        <ThreadInputForm onSubmit={onSubmit}/>
+        <ThreadInputForm onSubmit={onSubmit} />
         {showPreview && (
-                  <div className="w-full max-w-4xl mt-8">
-                    <h2 className="text-2xl font-bold mb-4">Generated Thread Snap</h2>
-                    <ThreadPreview onClear={() => setShowPreview(false)} />
-                    {JSON.stringify(data)}
-                  </div>
-                )}
+          <div className="mt-8 w-full max-w-4xl">
+            <h2 className="mb-4 text-2xl font-bold">Generated Thread Snap</h2>
+            <ThreadPreview onClear={() => setShowPreview(false)} />
+            {JSON.stringify(data)}
+          </div>
+        )}
       </div>
     </main>
   );
