@@ -29,7 +29,6 @@ const formSchema = z.object({
     }),
 });
 
-
 export function ThreadInputForm() {
   const { setThreadId } = useThread();
 

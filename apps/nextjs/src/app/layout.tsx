@@ -11,6 +11,7 @@ import { SiteHeader } from "~/components/site-header";
 import { ThemeProvider } from "~/components/theme-provider";
 import { ThreadProvider } from "~/components/thread-provider";
 import { env } from "~/env";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -60,6 +61,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             <TRPCReactProvider>
               <SiteHeader />
               {props.children}
+              <Toaster />
             </TRPCReactProvider>
           </ThreadProvider>
         </ThemeProvider>
