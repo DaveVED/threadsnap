@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { auth, signIn } from "@acme/auth";
+import { auth, signIn } from "@threadsnap/auth";
 
 import { Button } from "~/components/ui/button";
 import { UserProfileDropdown } from "~/components/user-profile-dropdown";

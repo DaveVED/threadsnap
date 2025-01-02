@@ -1,6 +1,7 @@
 "use client";
 
-import { Bookmark, Eye, Heart, MessageCircle, Repeat2 } from "lucide-react";
+import { Bookmark, Eye, Heart, MessageCircle, Repeat2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { cn } from "~/lib/utils";
@@ -36,9 +37,24 @@ interface TweetActionProps {
   className?: string;
 }
 
+const tweetVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  }),
+};
+
 function TweetAction({ icon, count, className }: TweetActionProps) {
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
       className={cn(
         "flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary",
         className,
@@ -46,21 +62,36 @@ function TweetAction({ icon, count, className }: TweetActionProps) {
     >
       {icon}
       <span className="text-sm">{count}</span>
-    </button>
+    </motion.button>
   );
 }
 
 export default function TwitterThread({ thread }: TwitterThreadProps) {
   return (
-    <div className="mx-auto max-w-2xl overflow-hidden rounded-lg border bg-background">
-      <div className="border-b p-4">
+    <motion.div 
+      className="mx-auto max-w-2xl overflow-hidden rounded-lg bg-background/50 backdrop-blur-sm shadow-lg"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.1,
+          },
+        },
+      }}
+    >
+      <div className="p-4">
         <h2 className="text-lg font-semibold">Twitter Thread</h2>
       </div>
       <div>
-        {thread.map((tweet) => (
-          <div
+        {thread.map((tweet, index) => (
+          <motion.div
             key={tweet.id}
-            className="border-b px-4 py-3 transition-colors last:border-b-0 hover:bg-muted/40"
+            variants={tweetVariants}
+            custom={index}
+            className="px-4 py-3 transition-colors hover:bg-muted/40"
           >
             <div className="flex gap-3">
               <Avatar className="h-10 w-10 flex-shrink-0">
@@ -83,16 +114,19 @@ export default function TwitterThread({ thread }: TwitterThreadProps) {
                   {tweet.full_text}
                 </p>
                 {tweet.entities?.media?.map((media, mediaIndex) => (
-                  <div
+                  <motion.div
                     key={mediaIndex}
                     className="mt-3 overflow-hidden rounded-lg bg-muted/20"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 * (mediaIndex + 1) }}
                   >
                     <img
                       src={media.media_url_https}
                       alt="Tweet media"
                       className="h-auto w-full"
                     />
-                  </div>
+                  </motion.div>
                 ))}
                 <div className="mt-3 flex max-w-md justify-between">
                   <TweetAction
@@ -121,9 +155,10 @@ export default function TwitterThread({ thread }: TwitterThreadProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
+

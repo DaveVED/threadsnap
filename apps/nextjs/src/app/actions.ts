@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn, signOut } from "@acme/auth";
+import { signIn, signOut } from "@threadsnap/auth";
 
 import { api } from "~/trpc/server";
 

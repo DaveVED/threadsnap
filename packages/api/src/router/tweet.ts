@@ -2,14 +2,14 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { unstable_cache } from "next/cache";
 import { z } from "zod";
 
-import { eq, sql } from "@acme/db";
+import { eq, sql } from "@threadsnap/db";
 import {
   CreateSearchSchema,
   Searches,
   searchTotals,
   User,
   UserSavedHistory,
-} from "@acme/db/schema";
+} from "@threadsnap/db/schema";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 

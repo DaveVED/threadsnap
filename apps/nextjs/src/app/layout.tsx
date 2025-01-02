@@ -1,30 +1,35 @@
 import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+
 import { cn } from "~/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
+
 import "~/app/globals.css";
+
+import { AnimatedGridBackground } from "~/components/animated-grid-background";
+import { FloatingElements } from "~/components/floating-elements";
 import { SiteHeader } from "~/components/site-header";
 import { ThemeProvider } from "~/components/theme-provider";
 import { ThreadProvider } from "~/components/thread-provider";
 import { Toaster } from "~/components/ui/toaster";
 import { env } from "~/env";
-import { AnimatedGridBackground } from "~/components/animated-grid-background";
-import { FloatingElements } from "~/components/floating-elements";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
-      ? "https://acme.dev"
+      ? "https://threadsnap.dev"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Transform X/Twitter threads into React components",
+  title: "ThreadSnap",
+  description:
+    "ThreadSnap transforms X/Twitter threads into customizable React components. Perfect for embedding in your React projects or creating interactive archives.",
   openGraph: {
-    title: "acme",
-    description: "Transform X/Twitter threads into React components",
-    url: "https://acme.com",
-    siteName: "acme",
+    title: "threadsnap",
+    description:
+      "ThreadSnap transforms X/Twitter threads into customizable React components. Perfect for embedding in your React projects or creating interactive archives.",
+    url: "https://threadsnap.dev",
+    siteName: "threadsnap",
   },
   twitter: {
     card: "summary_large_image",
@@ -72,4 +77,3 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     </html>
   );
 }
-

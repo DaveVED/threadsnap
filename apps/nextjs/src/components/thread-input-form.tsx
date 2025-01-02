@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderIcon } from 'lucide-react';
-import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { motion } from "framer-motion";
+import { LoaderIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -46,26 +46,22 @@ export function ThreadInputForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4"
+        className="flex w-full flex-col gap-4 sm:flex-row"
       >
         <FormField
           control={form.control}
           name="url"
-          render={({ field }: { field: FieldValues }) => (
+          render={({ field }) => (
             <FormItem className="flex-1">
               <FormControl>
                 <div className="relative">
                   <Input
                     placeholder="https://x.com/RateDaveR/status/1873779825179320328"
                     {...field}
-                    className="h-10 w-full bg-background text-foreground px-3 py-2 text-sm backdrop-blur-sm sm:h-12 sm:px-4"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      console.log("Input changed:", e.target.value);
-                      field.onChange(e);
-                    }}
+                    className="h-12 w-full bg-background px-4 text-foreground backdrop-blur-sm"
                   />
                   <motion.div
-                    className="absolute inset-0 rounded-md border border-primary/50 pointer-events-none"
+                    className="pointer-events-none absolute inset-0 rounded-md border border-primary/50"
                     animate={{
                       opacity: [0, 1, 0],
                     }}
@@ -81,15 +77,12 @@ export function ThreadInputForm() {
             </FormItem>
           )}
         />
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Button 
-            type="submit" 
-            disabled={isLoading} 
-            size="lg" 
-            className="h-10 w-full px-6 sm:h-12 sm:w-auto sm:px-8"
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            size="lg"
+            className="h-12 w-full px-8 sm:w-auto"
           >
             {isLoading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
             {isLoading ? "Generating..." : "Generate Snap"}
@@ -99,4 +92,3 @@ export function ThreadInputForm() {
     </Form>
   );
 }
-

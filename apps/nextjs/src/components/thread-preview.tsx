@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Copy, Save, Trash2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Copy, Save, Trash2, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 import { CodePreview } from "~/components/code-preview";
 import { toast } from "~/hooks/use-toast";
@@ -38,9 +38,40 @@ interface Tweet {
   };
 }
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
+
+const tabVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
+
+const floatingSparkles: Variants = {
+  animate: {
+    y: [0, -10, 0],
+    opacity: [1, 0.5, 1],
+    scale: [1, 1.2, 1],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      repeatType: "reverse",
+    },
+  },
+};
+
 export function ThreadPreview({ userId }: { userId?: string }) {
   const utils = api.useUtils();
   const { threadId, clear } = useThread();
+  const [activeTab, setActiveTab] = React.useState("preview");
 
   const {
     data: threads,
@@ -113,78 +144,108 @@ export function ThreadPreview({ userId }: { userId?: string }) {
   };
 
   const componentCode = generateTwitterThreadCode(threads.data);
+  const jsonResponse = JSON.stringify(threads.data, null, 2);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      variants={fadeInUp}
+      initial="hidden"
+      animate="visible"
       className="relative w-full max-w-3xl"
     >
       <AnimatedGridBackground className="absolute inset-0 z-0" />
-      <div className="relative z-10 overflow-hidden rounded-xl bg-background/80 backdrop-blur-sm shadow-lg">
-        <Tabs defaultValue="preview" className="w-full">
-          <motion.div 
-            className="flex items-center justify-between px-4 py-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <TabsList>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
+      <motion.div
+        className="absolute -top-4 -left-4 text-primary/20"
+        variants={floatingSparkles}
+        animate="animate"
+      >
+        <Sparkles size={24} />
+      </motion.div>
+      <motion.div
+        className="absolute -bottom-4 -right-4 text-primary/20"
+        variants={floatingSparkles}
+        animate="animate"
+      >
+        <Sparkles size={24} />
+      </motion.div>
+      <div className="relative z-10 overflow-hidden rounded-xl bg-background/70 backdrop-blur-sm shadow-lg">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <div className="flex items-center justify-between px-4 py-3">
+            <TabsList className="grid w-full grid-cols-3 max-w-[300px]">
+              <TabsTrigger value="preview" className="data-[state=active]:bg-primary/10">Preview</TabsTrigger>
+              <TabsTrigger value="code" className="data-[state=active]:bg-primary/10">Code</TabsTrigger>
+              <TabsTrigger value="json" className="data-[state=active]:bg-primary/10">JSON</TabsTrigger>
             </TabsList>
             <div className="flex items-center space-x-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={handleSave}
-                aria-label="Save"
-              >
-                <Save className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={handleCopy}
-                aria-label="Copy code"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => clear()}
-                aria-label="Clear"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-primary hover:text-primary-foreground hover:bg-primary/20"
+                  onClick={handleSave}
+                  aria-label="Save"
+                >
+                  <Save className="h-4 w-4" />
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-primary hover:text-primary-foreground hover:bg-primary/20"
+                  onClick={handleCopy}
+                  aria-label="Copy code"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-primary hover:text-primary-foreground hover:bg-primary/20"
+                  onClick={() => clear()}
+                  aria-label="Clear"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </motion.div>
             </div>
-          </motion.div>
-          <motion.div 
-            className="h-[400px] sm:h-[500px] md:h-[600px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <TabsContent value="preview" className="h-full">
-              <ScrollArea className="h-full">
-                <div className="p-4">
-                  <TwitterThread thread={threads.data as Tweet[]} />
-                </div>
-              </ScrollArea>
-            </TabsContent>
-            <TabsContent value="code" className="h-full">
-              <ScrollArea className="h-full">
-                <div className="p-4">
-                  <CodePreview code={componentCode} />
-                </div>
-              </ScrollArea>
-            </TabsContent>
-          </motion.div>
+          </div>
+          <div className="h-[400px] sm:h-[500px] md:h-[600px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                variants={tabVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                className="h-full"
+              >
+                <TabsContent value="preview" className="h-full">
+                  <ScrollArea className="h-full">
+                    <div className="p-4">
+                      <TwitterThread thread={threads.data as Tweet[]} />
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+                <TabsContent value="code" className="h-full">
+                  <ScrollArea className="h-full">
+                    <div className="p-4">
+                      <CodePreview code={componentCode} />
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+                <TabsContent value="json" className="h-full">
+                  <ScrollArea className="h-full">
+                    <div className="p-4">
+                      <CodePreview code={jsonResponse} language="json" />
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </Tabs>
       </div>
     </motion.div>

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/nextjs",
+  "name": "@threadsnap/nextjs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,10 +14,6 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@acme/api": "workspace:*",
-    "@acme/auth": "workspace:*",
-    "@acme/db": "workspace:*",
-    "@acme/validators": "workspace:*",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
@@ -29,6 +25,10 @@
     "@radix-ui/react-toast": "^1.2.4",
     "@t3-oss/env-nextjs": "^0.11.1",
     "@tanstack/react-query": "catalog:",
+    "@threadsnap/api": "workspace:*",
+    "@threadsnap/auth": "workspace:*",
+    "@threadsnap/db": "workspace:*",
+    "@threadsnap/validators": "workspace:*",
     "@trpc/client": "catalog:",
     "@trpc/react-query": "catalog:",
     "@trpc/server": "catalog:",
@@ -52,10 +52,10 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tailwind-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@threadsnap/eslint-config": "workspace:*",
+    "@threadsnap/prettier-config": "workspace:*",
+    "@threadsnap/tailwind-config": "workspace:*",
+    "@threadsnap/tsconfig": "workspace:*",
     "@types/node": "^20.17.7",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
@@ -67,5 +67,5 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@threadsnap/prettier-config"
 }

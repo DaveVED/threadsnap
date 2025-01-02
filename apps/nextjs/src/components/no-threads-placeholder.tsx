@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { motion } from 'framer-motion'
-import { Code2, Sparkles } from 'lucide-react'
+import { motion } from "framer-motion";
+import { Code2, Sparkles } from "lucide-react";
 
 export function NoThreadsPlaceholder() {
   return (
@@ -14,7 +14,7 @@ export function NoThreadsPlaceholder() {
       >
         {/* Background glow effect */}
         <motion.div
-          className="absolute inset-0 bg-primary/20 blur-xl rounded-full"
+          className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.5, 0.8, 0.5],
@@ -22,37 +22,37 @@ export function NoThreadsPlaceholder() {
           transition={{
             duration: 3,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
-        
+
         {/* Main icon container */}
-        <motion.div 
-          className="relative bg-background p-8 rounded-full border border-primary/20"
+        <motion.div
+          className="relative rounded-full border border-primary/20 bg-background p-8"
           animate={{
             y: [0, -10, 0],
           }}
           transition={{
             duration: 4,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         >
           <div className="relative">
-            <Code2 className="w-12 h-12 text-primary" />
+            <Code2 className="h-12 w-12 text-primary" />
             <motion.div
-              className="absolute -top-1 -right-1"
+              className="absolute -right-1 -top-1"
               animate={{
                 rotate: 360,
-                scale: [1, 1.2, 1]
+                scale: [1, 1.2, 1],
               }}
               transition={{
                 duration: 3,
                 repeat: Infinity,
-                ease: "linear"
+                ease: "linear",
               }}
             >
-              <Sparkles className="w-4 h-4 text-primary" />
+              <Sparkles className="h-4 w-4 text-primary" />
             </motion.div>
           </div>
         </motion.div>
@@ -65,11 +65,10 @@ export function NoThreadsPlaceholder() {
         transition={{ delay: 0.2 }}
       >
         <h3 className="text-xl font-semibold">No thread selected</h3>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Paste a Twitter thread URL above to get started
         </p>
       </motion.div>
     </div>
-  )
+  );
 }
-

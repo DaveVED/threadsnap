@@ -50,3 +50,6 @@ dist/
 
 # turbo
 .turbo
+
+# VS Code
+.vscode

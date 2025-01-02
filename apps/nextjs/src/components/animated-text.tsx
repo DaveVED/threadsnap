@@ -1,23 +1,24 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { cn } from '~/lib/utils'
+import { motion } from "framer-motion";
+
+import { cn } from "~/lib/utils";
 
 interface AnimatedTextProps {
-  text: string
-  className?: string
+  text: string;
+  className?: string;
 }
 
 export function AnimatedText({ text, className }: AnimatedTextProps) {
-  const words = text.split(' ')
-  
+  const words = text.split(" ");
+
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
       transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
     }),
-  }
+  };
 
   const child = {
     visible: {
@@ -38,7 +39,7 @@ export function AnimatedText({ text, className }: AnimatedTextProps) {
         stiffness: 100,
       },
     },
-  }
+  };
 
   return (
     <motion.div
@@ -48,15 +49,10 @@ export function AnimatedText({ text, className }: AnimatedTextProps) {
       className={cn("flex flex-wrap justify-center gap-x-3", className)}
     >
       {words.map((word, idx) => (
-        <motion.span
-          variants={child}
-          key={idx}
-          className="inline-block"
-        >
+        <motion.span variants={child} key={idx} className="inline-block">
           {word}
         </motion.span>
       ))}
     </motion.div>
-  )
+  );
 }
-

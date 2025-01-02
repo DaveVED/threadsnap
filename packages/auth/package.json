@@ -1,5 +1,5 @@
 {
-  "name": "@acme/auth",
+  "name": "@threadsnap/auth",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -18,10 +18,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/db": "workspace:*",
     "@auth/core": "0.37.2",
     "@auth/drizzle-adapter": "1.7.4",
     "@t3-oss/env-nextjs": "^0.11.1",
+    "@threadsnap/db": "workspace:*",
     "next": "^14.2.15",
     "next-auth": "5.0.0-beta.25",
     "react": "catalog:react18",
@@ -29,12 +29,12 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@threadsnap/eslint-config": "workspace:*",
+    "@threadsnap/prettier-config": "workspace:*",
+    "@threadsnap/tsconfig": "workspace:*",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@threadsnap/prettier-config"
 }
