@@ -1,13 +1,14 @@
 import * as React from "react";
+
 import { auth } from "@threadsnap/auth";
 
 import { AnimatedGridBackground } from "~/components/animated-grid-background";
 import { AnimatedText } from "~/components/animated-text";
 import { FloatingElements } from "~/components/floating-elements";
+import { ThreadUnrollSuspenseSpinner } from "~/components/spinning-image";
 import { ThreadInputForm } from "~/components/thread-input-form";
 import { ThreadPreview } from "~/components/thread-preview";
 import { HydrateClient } from "~/trpc/server";
-import { ThreadUnrollSuspenseSpinner } from "~/components/spinning-image";
 
 export default async function Home() {
   const session = await auth();
@@ -33,7 +34,26 @@ export default async function Home() {
               </p>
             </div>
 
-            <React.Suspense fallback={
+            <React.Suspense
+              fallback={
+                <ThreadUnrollSuspenseSpinner
+                  imageUrl="/your-custom-spinner-image.jpg"
+                  minSize={60}
+                  maxSize={140}
+                  spinSpeed={1.5}
+                  pulseSpeed={2}
+                  waitTime={1000}
+                />
+              }
+            >
+              <div className="w-full max-w-xl">
+                <ThreadInputForm />
+              </div>
+            </React.Suspense>
+          </div>
+
+          <React.Suspense
+            fallback={
               <ThreadUnrollSuspenseSpinner
                 imageUrl="/your-custom-spinner-image.jpg"
                 minSize={60}
@@ -42,23 +62,8 @@ export default async function Home() {
                 pulseSpeed={2}
                 waitTime={1000}
               />
-            }>
-              <div className="w-full max-w-xl">
-                <ThreadInputForm />
-              </div>
-            </React.Suspense>
-          </div>
-
-          <React.Suspense fallback={
-            <ThreadUnrollSuspenseSpinner
-              imageUrl="/your-custom-spinner-image.jpg"
-              minSize={60}
-              maxSize={140}
-              spinSpeed={1.5}
-              pulseSpeed={2}
-              waitTime={1000}
-            />
-          }>
+            }
+          >
             <ThreadPreview userId={session?.user.id} />
           </React.Suspense>
         </div>
@@ -66,4 +71,3 @@ export default async function Home() {
     </HydrateClient>
   );
 }
-

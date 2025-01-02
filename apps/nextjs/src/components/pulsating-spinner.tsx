@@ -2,9 +2,11 @@
 
 import * as React from "react";
 import Image from "next/image";
+
 import { cn } from "~/lib/utils";
 
-export interface PulsatingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PulsatingSpinnerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   imageUrl: string;
   minSize?: number;
   maxSize?: number;
@@ -13,17 +15,23 @@ export interface PulsatingSpinnerProps extends React.HTMLAttributes<HTMLDivEleme
   onComplete?: () => void;
 }
 
-const PulsatingSpinner = React.forwardRef<HTMLDivElement, PulsatingSpinnerProps>(
-  ({ 
-    className, 
-    imageUrl, 
-    minSize = 80, 
-    maxSize = 120, 
-    spinSpeed = 1, 
-    pulseSpeed = 1, 
-    onComplete,
-    ...props 
-  }, ref) => {
+const PulsatingSpinner = React.forwardRef<
+  HTMLDivElement,
+  PulsatingSpinnerProps
+>(
+  (
+    {
+      className,
+      imageUrl,
+      minSize = 80,
+      maxSize = 120,
+      spinSpeed = 1,
+      pulseSpeed = 1,
+      onComplete,
+      ...props
+    },
+    ref,
+  ) => {
     const [size, setSize] = React.useState(minSize);
     const [isGrowing, setIsGrowing] = React.useState(true);
 
@@ -47,11 +55,11 @@ const PulsatingSpinner = React.forwardRef<HTMLDivElement, PulsatingSpinnerProps>
       >
         <div
           className="transition-all duration-300 ease-in-out"
-          style={{ 
-            width: `${size}px`, 
+          style={{
+            width: `${size}px`,
             height: `${size}px`,
             animation: `${2 / spinSpeed}s linear infinite`,
-            animationName: 'spin',
+            animationName: "spin",
           }}
         >
           <style jsx>{`
@@ -75,10 +83,9 @@ const PulsatingSpinner = React.forwardRef<HTMLDivElement, PulsatingSpinnerProps>
         </div>
       </div>
     );
-  }
+  },
 );
 
 PulsatingSpinner.displayName = "PulsatingSpinner";
 
 export { PulsatingSpinner };
-

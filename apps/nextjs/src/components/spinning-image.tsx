@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
+
 import { PulsatingSpinner } from "./pulsating-spinner";
 
 interface ThreadUnrollSuspenseSpinnerProps {
@@ -53,4 +54,3 @@ export function ThreadUnrollSuspenseSpinner({
 
   return spinner;
 }
-

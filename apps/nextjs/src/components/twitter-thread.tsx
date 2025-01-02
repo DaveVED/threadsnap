@@ -1,7 +1,7 @@
 "use client";
 
-import { Bookmark, Eye, Heart, MessageCircle, Repeat2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import { Bookmark, Eye, Heart, MessageCircle, Repeat2 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { cn } from "~/lib/utils";
@@ -68,8 +68,8 @@ function TweetAction({ icon, count, className }: TweetActionProps) {
 
 export default function TwitterThread({ thread }: TwitterThreadProps) {
   return (
-    <motion.div 
-      className="mx-auto max-w-2xl overflow-hidden rounded-lg bg-background/50 backdrop-blur-sm shadow-lg"
+    <motion.div
+      className="mx-auto max-w-2xl overflow-hidden rounded-lg bg-background/50 shadow-lg backdrop-blur-sm"
       initial="hidden"
       animate="visible"
       variants={{
@@ -161,4 +161,3 @@ export default function TwitterThread({ thread }: TwitterThreadProps) {
     </motion.div>
   );
 }
-

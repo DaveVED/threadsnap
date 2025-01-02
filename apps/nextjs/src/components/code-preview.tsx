@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
@@ -31,7 +31,7 @@ export function CodePreview({ code, language = "tsx" }: CodePreviewProps) {
       <Button
         size="icon"
         variant="ghost"
-        className="absolute right-4 top-4 h-6 w-6 z-10"
+        className="absolute right-4 top-4 z-10 h-6 w-6"
         onClick={onCopy}
         aria-label="Copy code"
       >
@@ -53,4 +53,3 @@ export function CodePreview({ code, language = "tsx" }: CodePreviewProps) {
     </div>
   );
 }
-

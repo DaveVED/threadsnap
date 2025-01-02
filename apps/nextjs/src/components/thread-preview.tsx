@@ -1,21 +1,21 @@
 "use client";
 
 import * as React from "react";
-import { Copy, Save, Trash2, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from "framer-motion";
+import { Copy, Save, Sparkles, Trash2 } from "lucide-react";
 
 import { CodePreview } from "~/components/code-preview";
 import { toast } from "~/hooks/use-toast";
 import { generateTwitterThreadCode } from "~/lib/generate-component-code";
 import { api } from "~/trpc/react";
+import { AnimatedGridBackground } from "./animated-grid-background";
+import { NoThreadsPlaceholder } from "./no-threads-placeholder";
 import { ThreadUnrollSuspenseSpinner } from "./spinning-image";
 import { useThread } from "./thread-provider";
 import TwitterThread from "./twitter-thread";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { NoThreadsPlaceholder } from "./no-threads-placeholder";
-import { AnimatedGridBackground } from "./animated-grid-background";
 
 interface Tweet {
   id: number;
@@ -40,14 +40,14 @@ interface Tweet {
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut"
-    }
-  }
+      ease: "easeOut",
+    },
+  },
 };
 
 const tabVariants = {
@@ -103,7 +103,7 @@ export function ThreadPreview({ userId }: { userId?: string }) {
   });
 
   if (!threadId) {
-    return <NoThreadsPlaceholder />
+    return <NoThreadsPlaceholder />;
   }
 
   if (isLoading) {
@@ -155,7 +155,7 @@ export function ThreadPreview({ userId }: { userId?: string }) {
     >
       <AnimatedGridBackground className="absolute inset-0 z-0" />
       <motion.div
-        className="absolute -top-4 -left-4 text-primary/20"
+        className="absolute -left-4 -top-4 text-primary/20"
         variants={floatingSparkles}
         animate="animate"
       >
@@ -168,20 +168,35 @@ export function ThreadPreview({ userId }: { userId?: string }) {
       >
         <Sparkles size={24} />
       </motion.div>
-      <div className="relative z-10 overflow-hidden rounded-xl bg-background/70 backdrop-blur-sm shadow-lg">
+      <div className="relative z-10 overflow-hidden rounded-xl bg-background/70 shadow-lg backdrop-blur-sm">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex items-center justify-between px-4 py-3">
-            <TabsList className="grid w-full grid-cols-3 max-w-[300px]">
-              <TabsTrigger value="preview" className="data-[state=active]:bg-primary/10">Preview</TabsTrigger>
-              <TabsTrigger value="code" className="data-[state=active]:bg-primary/10">Code</TabsTrigger>
-              <TabsTrigger value="json" className="data-[state=active]:bg-primary/10">JSON</TabsTrigger>
+            <TabsList className="grid w-full max-w-[300px] grid-cols-3">
+              <TabsTrigger
+                value="preview"
+                className="data-[state=active]:bg-primary/10"
+              >
+                Preview
+              </TabsTrigger>
+              <TabsTrigger
+                value="code"
+                className="data-[state=active]:bg-primary/10"
+              >
+                Code
+              </TabsTrigger>
+              <TabsTrigger
+                value="json"
+                className="data-[state=active]:bg-primary/10"
+              >
+                JSON
+              </TabsTrigger>
             </TabsList>
             <div className="flex items-center space-x-2">
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-primary hover:text-primary-foreground hover:bg-primary/20"
+                  className="h-8 w-8 text-primary hover:bg-primary/20 hover:text-primary-foreground"
                   onClick={handleSave}
                   aria-label="Save"
                 >
@@ -192,7 +207,7 @@ export function ThreadPreview({ userId }: { userId?: string }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-primary hover:text-primary-foreground hover:bg-primary/20"
+                  className="h-8 w-8 text-primary hover:bg-primary/20 hover:text-primary-foreground"
                   onClick={handleCopy}
                   aria-label="Copy code"
                 >
@@ -203,7 +218,7 @@ export function ThreadPreview({ userId }: { userId?: string }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-primary hover:text-primary-foreground hover:bg-primary/20"
+                  className="h-8 w-8 text-primary hover:bg-primary/20 hover:text-primary-foreground"
                   onClick={() => clear()}
                   aria-label="Clear"
                 >
@@ -251,4 +266,3 @@ export function ThreadPreview({ userId }: { userId?: string }) {
     </motion.div>
   );
 }
-
