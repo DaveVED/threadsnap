@@ -1,17 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-
 import { cn } from "~/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
-
 import "~/app/globals.css";
-
 import { SiteHeader } from "~/components/site-header";
 import { ThemeProvider } from "~/components/theme-provider";
 import { ThreadProvider } from "~/components/thread-provider";
 import { Toaster } from "~/components/ui/toaster";
 import { env } from "~/env";
+import { AnimatedGridBackground } from "~/components/animated-grid-background";
+import { FloatingElements } from "~/components/floating-elements";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -59,9 +58,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         >
           <ThreadProvider>
             <TRPCReactProvider>
-              <SiteHeader />
-              {props.children}
-              <Toaster />
+              <div className="relative">
+                <AnimatedGridBackground />
+                <FloatingElements />
+                <SiteHeader />
+                {props.children}
+                <Toaster />
+              </div>
             </TRPCReactProvider>
           </ThreadProvider>
         </ThemeProvider>
@@ -69,3 +72,4 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     </html>
   );
 }
+

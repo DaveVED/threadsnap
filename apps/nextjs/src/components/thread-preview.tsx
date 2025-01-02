@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Copy, Save, Trash2 } from "lucide-react";
+import { Copy, Save, Trash2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 import { CodePreview } from "~/components/code-preview";
 import { toast } from "~/hooks/use-toast";
@@ -13,6 +14,8 @@ import TwitterThread from "./twitter-thread";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { NoThreadsPlaceholder } from "./no-threads-placeholder";
+import { AnimatedGridBackground } from "./animated-grid-background";
 
 interface Tweet {
   id: number;
@@ -69,7 +72,7 @@ export function ThreadPreview({ userId }: { userId?: string }) {
   });
 
   if (!threadId) {
-    return <div className="p-4">No thread selected.</div>;
+    return <NoThreadsPlaceholder />
   }
 
   if (isLoading) {
@@ -112,10 +115,21 @@ export function ThreadPreview({ userId }: { userId?: string }) {
   const componentCode = generateTwitterThreadCode(threads.data);
 
   return (
-    <div className="not-prose relative overflow-hidden rounded-xl">
-      <div className="w-[800px] overflow-x-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="relative w-full max-w-3xl"
+    >
+      <AnimatedGridBackground className="absolute inset-0 z-0" />
+      <div className="relative z-10 overflow-hidden rounded-xl bg-background/80 backdrop-blur-sm shadow-lg">
         <Tabs defaultValue="preview" className="w-full">
-          <div className="flex items-center justify-between border-b px-4 py-3">
+          <motion.div 
+            className="flex items-center justify-between px-4 py-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
             <TabsList>
               <TabsTrigger value="preview">Preview</TabsTrigger>
               <TabsTrigger value="code">Code</TabsTrigger>
@@ -149,8 +163,13 @@ export function ThreadPreview({ userId }: { userId?: string }) {
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
-          </div>
-          <div className="h-[600px]">
+          </motion.div>
+          <motion.div 
+            className="h-[400px] sm:h-[500px] md:h-[600px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
             <TabsContent value="preview" className="h-full">
               <ScrollArea className="h-full">
                 <div className="p-4">
@@ -165,9 +184,10 @@ export function ThreadPreview({ userId }: { userId?: string }) {
                 </div>
               </ScrollArea>
             </TabsContent>
-          </div>
+          </motion.div>
         </Tabs>
       </div>
-    </div>
+    </motion.div>
   );
 }
+
