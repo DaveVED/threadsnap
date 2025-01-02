@@ -1,0 +1,17 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded black background -->
+  <rect width="100" height="100" rx="20" ry="20" fill="black"/>
+  
+  <!-- Stylized thread and snap representation -->
+  <g fill="white">
+    <!-- Thread part 1 -->
+    <rect x="30" y="25" width="4" height="30" rx="2" ry="2" transform="rotate(-15, 32, 40)"/>
+    
+    <!-- Thread part 2 -->
+    <rect x="66" y="45" width="4" height="30" rx="2" ry="2" transform="rotate(15, 68, 60)"/>
+    
+    <!-- Snap effect -->
+    <circle cx="50" cy="50" r="8"/>
+    <rect x="46" y="46" width="8" height="8" transform="rotate(45, 50, 50)"/>
+  </g>
+</svg>

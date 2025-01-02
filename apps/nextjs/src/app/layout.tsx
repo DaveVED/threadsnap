@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     site: "@RateDaveR",
     creator: "@RateDaveR",
   },
+  icons: {
+    icon: "/threadsnap-icon.svg"
+  }
 };
 
 export const viewport: Viewport = {
