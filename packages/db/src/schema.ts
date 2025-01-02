@@ -48,8 +48,14 @@ export const Searches = pgTable("searches", (t) => ({
   response_data: t.jsonb(),
   is_saved: t.boolean().notNull().default(false),
   is_active: t.boolean().notNull().default(true),
-  created_at: t.timestamp({ mode: "date", withTimezone: true }).notNull().defaultNow(),
-  updated_at: t.timestamp({ mode: "date", withTimezone: true }).notNull().defaultNow(),
+  created_at: t
+    .timestamp({ mode: "date", withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updated_at: t
+    .timestamp({ mode: "date", withTimezone: true })
+    .notNull()
+    .defaultNow(),
 }));
 
 export const SearchRelations = relations(Searches, ({ one, many }) => ({
@@ -124,7 +130,7 @@ export const Account = pgTable(
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-  })
+  }),
 );
 
 export const AccountRelations = relations(Account, ({ one }) => ({
@@ -148,12 +154,30 @@ export const SessionRelations = relations(Session, ({ one }) => ({
 // User Saved History Table
 export const UserSavedHistory = pgTable("user_saved_history", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
-  user_id: t.uuid().notNull().references(() => User.id, { onDelete: "cascade" }),
-  search_id: t.uuid().notNull().references(() => Searches.id, { onDelete: "cascade" }),
-  saved_at: t.timestamp({ mode: "date", withTimezone: true }).notNull().defaultNow(),
+  user_id: t
+    .uuid()
+    .notNull()
+    .references(() => User.id, { onDelete: "cascade" }),
+  search_id: t
+    .uuid()
+    .notNull()
+    .references(() => Searches.id, { onDelete: "cascade" }),
+  saved_at: t
+    .timestamp({ mode: "date", withTimezone: true })
+    .notNull()
+    .defaultNow(),
 }));
 
-export const UserSavedHistoryRelations = relations(UserSavedHistory, ({ one }) => ({
-  user: one(User, { fields: [UserSavedHistory.user_id], references: [User.id] }),
-  search: one(Searches, { fields: [UserSavedHistory.search_id], references: [Searches.id] }),
-}));
+export const UserSavedHistoryRelations = relations(
+  UserSavedHistory,
+  ({ one }) => ({
+    user: one(User, {
+      fields: [UserSavedHistory.user_id],
+      references: [User.id],
+    }),
+    search: one(Searches, {
+      fields: [UserSavedHistory.search_id],
+      references: [Searches.id],
+    }),
+  }),
+);

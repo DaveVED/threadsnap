@@ -1,10 +1,15 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { unstable_cache } from "next/cache";
-import { PgColumn } from "drizzle-orm/pg-core";
 import { z } from "zod";
 
 import { eq, sql } from "@acme/db";
-import { CreateSearchSchema, Searches, User, UserSavedHistory, searchTotals } from "@acme/db/schema";
+import {
+  CreateSearchSchema,
+  Searches,
+  searchTotals,
+  User,
+  UserSavedHistory,
+} from "@acme/db/schema";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
@@ -65,7 +70,11 @@ export const tweetRouter = {
         });
 
         // Insert the new search record
-        const searchRecord = await ctx.db.insert(Searches).values(newSearch).returning().execute();
+        const searchRecord = await ctx.db
+          .insert(Searches)
+          .values(newSearch)
+          .returning()
+          .execute();
 
         // Update or insert into search_totals table
         await ctx.db
@@ -97,7 +106,7 @@ export const tweetRouter = {
         return {
           status: 200,
           data: tweets,
-          searchId: searchRecord[0]?.id
+          searchId: searchRecord[0]?.id,
         };
       } catch (error) {
         console.error("Error fetching thread:", error);
@@ -113,7 +122,7 @@ export const tweetRouter = {
       z.object({
         userId: z.string().uuid(),
         searchId: z.string().uuid(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -132,7 +141,6 @@ export const tweetRouter = {
           message: "Thread saved successfully.",
         };
       } catch (error) {
-        
         if (error instanceof Error) {
           console.error("Error saving thread:", error.message);
           return {

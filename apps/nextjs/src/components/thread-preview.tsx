@@ -1,18 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { Copy, Save, Trash2 } from 'lucide-react';
+import { Copy, Save, Trash2 } from "lucide-react";
 
 import { CodePreview } from "~/components/code-preview";
 import { toast } from "~/hooks/use-toast";
 import { generateTwitterThreadCode } from "~/lib/generate-component-code";
 import { api } from "~/trpc/react";
+import { ThreadUnrollSuspenseSpinner } from "./spinning-image";
 import { useThread } from "./thread-provider";
 import TwitterThread from "./twitter-thread";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { ThreadUnrollSuspenseSpinner } from "./spinning-image";
 
 interface Tweet {
   id: number;
@@ -39,9 +39,13 @@ export function ThreadPreview({ userId }: { userId?: string }) {
   const utils = api.useUtils();
   const { threadId, clear } = useThread();
 
-  const { data: threads, isLoading, error } = api.tweet.byThreadId.useQuery(
+  const {
+    data: threads,
+    isLoading,
+    error,
+  } = api.tweet.byThreadId.useQuery(
     { id: threadId!, userId },
-    { enabled: !!threadId }
+    { enabled: !!threadId },
   );
 
   const saveTweet = api.tweet.saveThread.useMutation({
@@ -55,9 +59,10 @@ export function ThreadPreview({ userId }: { userId?: string }) {
     onError: (err) => {
       toast({
         title: "Error",
-        description: err.data?.code === "UNAUTHORIZED"
-          ? "You must be logged in to save a thread"
-          : "Failed to save thread",
+        description:
+          err.data?.code === "UNAUTHORIZED"
+            ? "You must be logged in to save a thread"
+            : "Failed to save thread",
         variant: "destructive",
       });
     },
@@ -68,7 +73,11 @@ export function ThreadPreview({ userId }: { userId?: string }) {
   }
 
   if (isLoading) {
-    return <div className="p-4"><ThreadUnrollSuspenseSpinner /></div>;
+    return (
+      <div className="p-4">
+        <ThreadUnrollSuspenseSpinner />
+      </div>
+    );
   }
 
   if (error) {
@@ -162,4 +171,3 @@ export function ThreadPreview({ userId }: { userId?: string }) {
     </div>
   );
 }
-

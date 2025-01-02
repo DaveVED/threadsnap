@@ -10,8 +10,8 @@ import "~/app/globals.css";
 import { SiteHeader } from "~/components/site-header";
 import { ThemeProvider } from "~/components/theme-provider";
 import { ThreadProvider } from "~/components/thread-provider";
-import { env } from "~/env";
 import { Toaster } from "~/components/ui/toaster";
+import { env } from "~/env";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
