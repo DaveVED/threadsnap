@@ -1,32 +1,45 @@
 "use client";
 
 import * as React from "react";
+import { useThread } from "./thread-provider";
+import { api } from "~/trpc/react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Button } from "./ui/button";
 import { Copy, Save, Trash2 } from "lucide-react";
 
-import { Button } from "~/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+export function ThreadPreview() {
+  const { threadId, clear } = useThread();
 
-// Mock Twitter thread data
+  if (!threadId) {
+    return <div>No thread selected.</div>;
+  }
 
-interface ThreadPreviewProps {
-  onClear: () => void;
-}
+  const [threads, { isLoading, error }] = api.tweet.byThreadId.useSuspenseQuery({ id: threadId });
 
-const handleSave = () => {
-  console.log("Saving thread...");
-  // TODO: Implement actual save functionality
-};
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-const handleCopy = () => {
-  console.log("Copying code...");
-  // TODO: Implement actual copy functionality
-};
+  if (error) {
+    return <div>Error loading thread: {error.message}</div>;
+  }
 
-export function ThreadPreview({ onClear }: ThreadPreviewProps) {
+  if (!threads) {
+    return <div>No threads found.</div>;
+  }
+
+  const handleSave = () => {
+    console.log("Save button clicked");
+  };
+
+  const handleCopy = () => {
+    console.log("Copy button clicked");
+  };
+
   return (
-    <div className="not-prose relative overflow-hidden rounded-xl border">
+    <div className="not-prose relative rounded-xl overflow-hidden border">
       <Tabs defaultValue="preview" className="w-full">
-        <div className="flex items-center justify-between border-b px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-3 border-b">
           <TabsList>
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
@@ -37,35 +50,35 @@ export function ThreadPreview({ onClear }: ThreadPreviewProps) {
               size="icon"
               className="h-8 w-8"
               onClick={handleSave}
+              aria-label="Save"
             >
               <Save className="h-4 w-4" />
-              <span className="sr-only">Save</span>
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
               onClick={handleCopy}
+              aria-label="Copy"
             >
               <Copy className="h-4 w-4" />
-              <span className="sr-only">Copy</span>
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
-              onClick={onClear}
+              onClick={() => clear()}
+              aria-label="Clear"
             >
               <Trash2 className="h-4 w-4" />
-              <span className="sr-only">Clear</span>
             </Button>
           </div>
         </div>
         <TabsContent value="preview" className="p-4">
-          xxxxxx
+          <div>{threads.status}</div>
         </TabsContent>
         <TabsContent value="code" className="p-4">
-          xxxx
+          <pre>{JSON.stringify(threads.data, null, 2)}</pre>
         </TabsContent>
       </Tabs>
     </div>

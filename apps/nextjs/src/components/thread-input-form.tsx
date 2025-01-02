@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { useThread } from "./thread-provider";
 
 const formSchema = z.object({
   url: z
@@ -28,11 +29,10 @@ const formSchema = z.object({
     }),
 });
 
-interface ThreadInputFormProps {
-  onSubmit: (url: string) => Promise<void>;
-}
 
-export function ThreadInputForm({ onSubmit }: ThreadInputFormProps) {
+export function ThreadInputForm() {
+  const { setThreadId } = useThread();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,7 +44,7 @@ export function ThreadInputForm({ onSubmit }: ThreadInputFormProps) {
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    await onSubmit(values.url);
+    setThreadId(values.url);
     setIsLoading(false);
   }
 

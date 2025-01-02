@@ -1,9 +1,10 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
+import { unstable_cache } from 'next/cache';
 
 import { publicProcedure } from "../trpc";
 
-async function fetchAllTweets(id: string): Promise<any[]> {
+async function fetchAllTweetsUncached(id: string): Promise<any[]> {
   let allTweets: any[] = [];
   let nextCursor: string | null = null;
 
@@ -37,6 +38,12 @@ async function fetchAllTweets(id: string): Promise<any[]> {
   return allTweets;
 }
 
+const fetchAllTweets = unstable_cache(
+  async (id: string) => fetchAllTweetsUncached(id),
+  ['twitter-thread'],
+  { revalidate: 3600, tags: ['twitter-thread'] } // Cache for 1 hour
+);
+
 export const tweetRouter = {
   byThreadId: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -56,3 +63,4 @@ export const tweetRouter = {
       }
     }),
 } satisfies TRPCRouterRecord;
+

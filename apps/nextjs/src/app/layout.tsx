@@ -9,6 +9,7 @@ import "~/app/globals.css";
 
 import { SiteHeader } from "~/components/site-header";
 import { ThemeProvider } from "~/components/theme-provider";
+import { ThreadProvider } from "~/components/thread-provider";
 import { env } from "~/env";
 
 export const metadata: Metadata = {
@@ -55,10 +56,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <TRPCReactProvider>
-            <SiteHeader />
-            {props.children}
-          </TRPCReactProvider>
+          <ThreadProvider>
+            <TRPCReactProvider>
+              <SiteHeader />
+              {props.children}
+            </TRPCReactProvider>
+          </ThreadProvider>
         </ThemeProvider>
       </body>
     </html>
